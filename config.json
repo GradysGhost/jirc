@@ -13,19 +13,6 @@
 				"channels" : ["#jircfacetest"],
 				"secure" : false
 			}
-		},
-		"rackspace" : {
-			"host" : "irc.intra.rackspace.com",
-			"nick" : "jircface",
-			"options" : {
-				"userName" : "jIRCface",
-				"realName" : "Node.JS IRC Bot",
-				"port" : 6667,
-				"autoRejoin" : true,
-				"autoConnect" : true,
-				"channels" : ["#jircfacetest"],
-				"secure" : false
-			}
 		}
 	},
 	"plugins" : [

@@ -11,7 +11,11 @@ plugins.eightball = {
 	],
 	message : function(client, from, channel, text, message) {
 		if (text.indexOf(".eightball") == 0 || text.indexOf(".8ball") == 0) {
-			client.say(channel, plugins.eightball.responses[Math.floor(Math.random() * plugins.eightball.responses.length)]);
+			var response = plugins.eightball.responses[Math.floor(Math.random() * plugins.eightball.responses.length)]
+			client.say(channel, response);
+			if (plugins.logger) {
+				plugins.logger.log(channel, "<" + client.nick + "> " + response);
+			}
 		}
 	}
 };

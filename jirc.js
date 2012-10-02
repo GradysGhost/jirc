@@ -201,6 +201,7 @@ for (var p in plugins) {
 for (var c in config.clients) {
 	var conf = config.clients[c];
 	clients[c] = new irc.Client(conf.host, conf.nick, conf.options);
+	clients[c].nick = conf.nick;
 	
 	// Attach a listener to each of these IRC client events
 	clients[c].addListener('message', listeners.message);
