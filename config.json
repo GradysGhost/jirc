@@ -1,0 +1,22 @@
+{
+	"pluginDir" : "./plugins",
+	"clients" : {
+		"snoonet" : {
+			"host" : "irc.snoonet.com",
+			"nick" : "jIRCface",
+			"options" : {
+				"userName" : "jIRCface",
+				"realName" : "Node.JS IRC Bot",
+				"port" : 6667,
+				"autoRejoin" : true,
+				"autoConnect" : true,
+				"channels" : ["#jircfacetest", "#reddit-live"],
+				"secure" : false
+			}
+		}
+	},
+	"plugins" : [
+		"logger",
+		"eightball"
+	]
+}
