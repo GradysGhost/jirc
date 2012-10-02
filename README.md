@@ -53,7 +53,7 @@ Writing a plugin is really easy. Start with this framework:
 
     plugins.uniquePluginName = {
     
-    }
+    };
 
 In those braces, add functions for the events you wish to handle. For example, if you just want to print messages to the console, try this:
 
@@ -61,7 +61,7 @@ In those braces, add functions for the events you wish to handle. For example, i
         message : function(client, from, channel, text, message) {
             console.log(from + " -> " + channel + "\t" + text);
         }
-    }
+    };
 
 That'll work. Here's a full listing of the event handlers and their function signatures:
 
