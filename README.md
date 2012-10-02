@@ -47,7 +47,37 @@ Those events are:
  * raw
  * error
 
-## Plugins
+## The Plugins
+
+Right now, there are three plugins.
+
+### logger
+
+The logger plugin simply writes logs of all the channels the client has joined to disk in the `log` directory.
+
+### eightball
+
+This is a dumb game where you ask a yes/no question and jIRC responds with a random answer. To ask a question, anyone in the channel can use either of these commands:
+
+    .8ball
+    .eightball
+
+For example:
+
+    <SomeGuyInTheChannel> .8ball Is this an incredibly stupid game?
+    <jIRC> Definitely!
+
+### communicator
+
+This plugin is an **INCREDIBLY INSECURE** way to have jIRC send custom messages into a channel by sending it carefully formed HTTP requests. There's a config file at `plugins/communicator.json` that lets you set the HTTP server listening port and a password (in plaintext; how's that for security?). By default, the port is `3000` and the password is `password`. With default settings, you can convince jIRC to say something by running a `curl`:
+
+    curl 'http://jIRCserverHost/?pw=password&client=ClientNameFromConfig&channel=ChannelName&message=A%20message'
+
+Fancy.
+
+But keep in mind that all passwords are sent over an unencrypted connection in plaintext, and so this is easily compromised. The intended purpose of this plugin is to let you automate messages from some other source (think notifications from another application). To secure that, you should stick it behind a firewall and make sure that the only thing that can successfully get a request through is the application itself. I'll let you work out those details.
+
+## Writing Plugins
 
 Writing a plugin is really easy. Start with this framework:
 

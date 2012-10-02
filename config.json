@@ -17,7 +17,6 @@
 	},
 	"plugins" : [
 		"logger",
-		"eightball",
-		"communicator"
+		"eightball"
 	]
 }
