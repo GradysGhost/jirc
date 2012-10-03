@@ -77,6 +77,17 @@ Fancy.
 
 But keep in mind that all passwords are sent over an unencrypted connection in plaintext, and so this is easily compromised. The intended purpose of this plugin is to let you automate messages from some other source (think notifications from another application). To secure that, you should stick it behind a firewall and make sure that the only thing that can successfully get a request through is the application itself. I'll let you work out those details.
 
+### dice
+
+Returns die rolls. Accepts commands in the form of:
+
+    .dice #d#
+
+The first number is the number of dice to roll. The second number is how many sides are on each die. For example:
+
+    <SomeGuyInTheChannel> .dice 4d20
+    <jIRC> 4,16,12,9
+
 ## Writing Plugins
 
 Writing a plugin is really easy. Start with this framework:

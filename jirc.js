@@ -1,3 +1,6 @@
+// Debug option
+var debug = true;
+
 // Includes
 var fs = require('fs');
 var irc = require('irc');
@@ -21,7 +24,6 @@ for (var i = 0; i < config.plugins.length; ++i) {
 // These each handle an IRC event
 var listeners = {
 	message : function(from, channel, text, message) {
-		debugger;
 		for (var p in plugins) {
 			var func = plugins[p].message || function (){};
 			func(this, from, channel, text, message);
@@ -166,6 +168,7 @@ var listeners = {
 		}
 	},
 	raw : function(message) {
+		if (debug) { console.log(JSON.stringify(message)); }
 		for (var p in plugins) {
 			var func = plugins[p].raw || function (){};
 			func(this, message);

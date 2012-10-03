@@ -39,10 +39,6 @@ plugins.logger = {
 		plugins.logger.log(channel, nick + " left the channel.");
 	},
 	
-	quit : function(client, nick, reason, channels, message) {
-		plugins.logger.log(channel, nick + " quit: \"" + reason + "\"");
-	},
-	
 	kick : function(client, channel, nick, by, reason, message) {
 		plugins.logger.log(channel, by + " kicked " + nick + ". \"" + reason + "\"");
 	},
