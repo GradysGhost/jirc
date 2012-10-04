@@ -2,8 +2,7 @@ plugins.communicator = {
 	config : {},
 	init : function() {
 		plugins.communicator.config = JSON.parse(fs.readFileSync("plugins/communicator.json", "utf8"));
-		plugins.communicator.http = require('http');
-		plugins.communicator.http.createServer(function(request, response) {
+		require('http').createServer(function(request, response) {
 			var u = require('url').parse(request.url, true);
 			var q = u.query;
 			if (q.pw == plugins.communicator.config.password) {
