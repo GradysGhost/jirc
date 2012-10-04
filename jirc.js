@@ -1,5 +1,5 @@
 // Debug option
-var debug = true;
+var debug = false;
 
 // Includes
 var fs = require('fs');
@@ -233,4 +233,11 @@ for (var c in config.clients) {
 	clients[c].addListener('channellist', listeners.channelList);
 	clients[c].addListener('raw', listeners.raw);
 	clients[c].addListener('error', listeners.error);
+}
+
+function say(client, channel, message) {
+	client.say(channel, message);
+	if (plugins.logger) {
+		plugins.logger.log(channel, "<" + client.nick + "> " + message);
+	}
 }

@@ -7,12 +7,13 @@ plugins.eightball = {
 		"Yes, probably.",
 		"Not a chance!",
 		"Most likely.",
-		"Unlikely."
+		"Unlikely.",
+		"Maybe yes, no?"
 	],
 	message : function(client, from, channel, text, message) {
-		if (text.indexOf(".eightball") == 0 || text.indexOf(".8ball") == 0) {
+		if (text.indexOf(config.commandChar + "eightball") == 0 || text.indexOf(config.commandChar + "8ball") == 0) {
 			var response = plugins.eightball.responses[Math.floor(Math.random() * plugins.eightball.responses.length)]
-			client.say(channel, response);
+			say(client, channel, response);
 			if (plugins.logger) {
 				plugins.logger.log(channel, "<" + client.nick + "> " + response);
 			}
