@@ -237,7 +237,5 @@ for (var c in config.clients) {
 
 function say(client, channel, message) {
 	client.say(channel, message);
-	if (plugins.logger) {
-		plugins.logger.log(channel, "<" + client.nick + "> " + message);
-	}
+	listeners.message(client.nick, channel, message, null);
 }
