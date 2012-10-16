@@ -1,7 +1,7 @@
 plugins.url = {
 	message : function(client, from, channel, text, message) {
-	console.log("Client: " + client.toString());
 		var m = text.match(/[-a-zA-Z0-9@:%_\+.~#?&\/=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&\/=]*)?/gi);
+		console.log("m:\t" + m);
 		if (m) {
 			for (var i = 0; i < m.length; ++i) {
 				var url = require('url').parse(m[i]);

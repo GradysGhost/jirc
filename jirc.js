@@ -237,5 +237,9 @@ for (var c in config.clients) {
 
 function say(client, channel, message) {
 	client.say(channel, message);
-	listeners.message(client.nick, channel, message, null);
+	for (var p in plugins) {
+		if (plugins[p].message) {
+			plugins[p].message(client, client.nick, channel, message, null);
+		}
+	}
 }
