@@ -88,6 +88,16 @@ The first number is the number of dice to roll. The second number is how many si
     <SomeGuyInTheChannel> .dice 4d20
     <jIRC> 4,16,12,9
 
+### youtube
+
+Searches YouTube and presents the first _x_ result URLs. Change how many results get displayed in `youtube.json`. Accepts commands in the form of:
+
+    .youtube query
+
+### url
+
+Looks in all chat messages for URLs. When one is found, this plugin attempts to get the title of the web page (anything between `<title>` and `</title>`), then prints that to chat. This is not invoked through commands, but simply by posting a URL to the channel.
+
 ## Writing Plugins
 
 Writing a plugin is really easy. Start with this framework:
