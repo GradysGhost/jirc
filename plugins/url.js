@@ -22,6 +22,7 @@ plugins.url = {
 						});
 					}
 				});
+				request.on('error', function(){});
 			}
 			request.end();
 		}
