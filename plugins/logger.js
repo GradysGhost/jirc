@@ -48,7 +48,9 @@ plugins.logger = {
 	},
 	
 	nick : function(client, oldNick, newNick, channels, message) {
-		plugins.logger.log(channel, oldNick + " is now known as " + newNick);
+		for (var i = 0; i < channels.length; ++i) {
+			plugins.logger.log(channels[i], oldNick + " is now known as " + newNick);
+		}
 	},
 	
 	invite : function(client, channel, from, message) {
