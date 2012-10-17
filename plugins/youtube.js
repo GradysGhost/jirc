@@ -23,8 +23,10 @@ plugins.youtube = {
 				});
 				response.on('end', function() {
 					var json = JSON.parse(data);
-					for (var i = 0; i < json.feed.entry.length; ++i) {
-						say(client, channel, json.feed.entry[i].link[0].href);
+					if (json.feed.entry) {
+						for (var i = 0; i < json.feed.entry.length; ++i) {
+							say(client, channel, json.feed.entry[i].link[0].href);
+						}
 					}
 				});
 			});
