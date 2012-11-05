@@ -21,6 +21,7 @@
 		"eightball",
 		"youtube",
 		"dice",
-		"url"
+		"url",
+		"ping"
 	]
 }
