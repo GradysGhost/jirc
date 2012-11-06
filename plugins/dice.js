@@ -21,5 +21,10 @@ plugins.dice = {
 				say(client, channel, "Command must be in the form of: " + config.commandChar + "dice <dice>d<sides>");
 			}
 		}
+	},
+	help : function() {
+		return [
+			"    " + config.commandChar + "dice <count>d<sides> -- Roll <count> dice with <sides> sides each."
+		];
 	}
 }

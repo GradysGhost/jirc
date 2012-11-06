@@ -35,5 +35,11 @@ plugins.youtube = {
 			});
 			request.end();
 		}
+	},
+	
+	help : function() {
+		return [
+			"    " + config.commandChar + "youtube <query> -- Searches YouTube and returns the top " + this.config.results + " videos."
+		];
 	}
 };

@@ -3,5 +3,10 @@ plugins.ping = {
 		if (text.indexOf(config.commandChar + "ping") == 0) {
 			say(client, channel, from + ": pong");
 		}
+	},
+	help : function() {
+		return [
+			"    " + config.commandChar + "ping -- Responds with a 'pong'"
+		];
 	}
 };
