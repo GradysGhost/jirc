@@ -49,24 +49,6 @@ Those events are:
 
 ## The Plugins
 
-Right now, there are three plugins.
-
-### logger
-
-The logger plugin simply writes logs of all the channels the client has joined to disk in the `log` directory.
-
-### eightball
-
-This is a dumb game where you ask a yes/no question and jIRC responds with a random answer. To ask a question, anyone in the channel can use either of these commands:
-
-    .8ball
-    .eightball
-
-For example:
-
-    <SomeGuyInTheChannel> .8ball Is this an incredibly stupid game?
-    <jIRC> Definitely!
-
 ### communicator
 
 This plugin is an **INCREDIBLY INSECURE** way to have jIRC send custom messages into a channel by sending it carefully formed HTTP requests. There's a config file at `plugins/communicator.json` that lets you set the HTTP server listening port and a password (in plaintext; how's that for security?). By default, the port is `3000` and the password is `password`. With default settings, you can convince jIRC to say something by running a `curl`:
@@ -88,15 +70,39 @@ The first number is the number of dice to roll. The second number is how many si
     <SomeGuyInTheChannel> .dice 4d20
     <jIRC> 4,16,12,9
 
+### eightball
+
+This is a dumb game where you ask a yes/no question and jIRC responds with a random answer. To ask a question, anyone in the channel can use either of these commands:
+
+    .8ball
+    .eightball
+
+For example:
+
+    <SomeGuyInTheChannel> .8ball Is this an incredibly stupid game?
+    <jIRC> Definitely!
+
+### help
+
+This plugin attempts to gather information from the rest of the loaded plugins about what commands they support, then prints that info to the channel in response to the `help` command. Other plugins must implement the `help` function, which takes no arguments and returns an array of descriptive command entries.
+
+### logger
+
+The logger plugin simply writes logs of all the channels the client has joined to disk in the `log` directory.
+
+### ping
+
+When this plugin receives a `ping` command, it `pong`s. What did you expect?
+
+### url
+
+Looks in all chat messages for URLs. When one is found, this plugin attempts to get the title of the web page (anything between `<title>` and `</title>`), then prints that to chat. This is not invoked through commands, but simply by posting a URL to the channel.
+
 ### youtube
 
 Searches YouTube and presents the first _x_ result URLs. Change how many results get displayed in `youtube.json`. Accepts commands in the form of:
 
     .youtube query
-
-### url
-
-Looks in all chat messages for URLs. When one is found, this plugin attempts to get the title of the web page (anything between `<title>` and `</title>`), then prints that to chat. This is not invoked through commands, but simply by posting a URL to the channel.
 
 ## Writing Plugins
 
