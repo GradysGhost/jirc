@@ -7,7 +7,7 @@ A node.js-based IRC bot with a basic plugin framework.
 
 Clone this git repo:
 
-    git clone git@github.com:GradysGhost/jirc.git
+    git clone https://github.com/GradysGhost/jirc.git
 
 Then `cd` to that directory and install the `irc` Node module:
 
