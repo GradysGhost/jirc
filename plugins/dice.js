@@ -9,7 +9,7 @@ plugins.dice = {
 				var sides = matches[0].split('d')[1];
 				if (debug) console.log("Dice: " + dice + "; Sides: " + sides);
 				var rolls = [];
-				if (dice <= 100 || sides <= 100) {
+				if (dice <= 100 && sides <= 100) {
 					for (var i = 1; i <= dice; ++i) {
 						rolls.push(Math.ceil(Math.random() * sides));
 					}
