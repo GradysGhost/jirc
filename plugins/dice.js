@@ -11,10 +11,14 @@ plugins.dice = {
 					if (debug) console.log("Dice: " + dice + "; Sides: " + sides);
 					var rolls = [];
 					if (dice <= 100 && sides <= 100) {
-						for (var i = 1; i <= dice; ++i) {
-							rolls.push(Math.ceil(Math.random() * sides));
+						if (dice >= 1 && sides >= 2) {
+							for (var i = 1; i <= dice; ++i) {
+								rolls.push(Math.ceil(Math.random() * sides));
+							}
+							say(client, channel, rolls.toString());
+						} else {
+							say(client, channel, "Sorry, but you need to roll at least 1 die with at least 2 sides.");
 						}
-						say(client, channel, rolls.toString());
 					} else {
 						say(client, channel, "Sorry, I can roll no more than 100 dice with no more than 100 sides.");
 					}
