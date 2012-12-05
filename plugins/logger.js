@@ -13,7 +13,7 @@ plugins.logger = {
 		var chan = channel.replace(/\W/, '');
 		var d = new Date();
 		plugins.logger.streams["s" + chan].write(
-			"[" + d.getMonth() + "-" + d.getDate() + "-" + d.getFullYear() +
+			"[" + (d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getFullYear() +
 			" " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + 
 			"." + d.getMilliseconds() + "] " + message + "\n", "utf8"
 		);

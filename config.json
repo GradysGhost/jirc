@@ -3,7 +3,7 @@
 	"pluginDir" : "./plugins",
 	"clients" : {
 		"snoonet" : {
-			"host" : "irc.snoonet.com",
+			"host" : "irc.snoonet.org",
 			"nick" : "jIRCface",
 			"options" : {
 				"userName" : "jIRCface",
