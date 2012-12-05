@@ -1,0 +1,6 @@
+{
+	"port" : 12321,
+	"docroot" : "logbrowser",
+	"prologue" : "prologue.html",
+	"epilogue" : "epilogue.html"
+}

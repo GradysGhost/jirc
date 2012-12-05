@@ -23,6 +23,7 @@
 		"dice",
 		"url",
 		"ping",
-		"help"
+		"help",
+		"logbrowser"
 	]
 }
