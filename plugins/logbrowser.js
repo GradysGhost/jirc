@@ -1,6 +1,7 @@
 plugins.logbrowser = {
 	config : {},
 	init : function() {
+		if (!plugins.logger) return;
 		// Read in the config file
 		plugins.logbrowser.config = JSON.parse(fs.readFileSync("plugins/logbrowser.json", "utf8"));
 		
