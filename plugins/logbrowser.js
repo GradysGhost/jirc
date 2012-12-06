@@ -30,7 +30,7 @@ plugins.logbrowser = {
 					if (fs.statSync("./log/" + q.chan)) {
 						if (q.q) {  // Are we attempting a search?
 							rbod += "<h3>Search: " + q.q + "</h3>";
-							var regex = new RegExp(q.q, "i");
+							var regex = new RegExp(q.q, "ig");
 							var lines = fs.readFileSync("./log/" + q.chan, "utf8").split('\n');
 							for (var i = 0; i < lines.length; ++i) {
 								var m = lines[i].match(regex);
@@ -40,11 +40,11 @@ plugins.logbrowser = {
 										for (var j = i - q.context; j < i; ++j) {
 											rbod += e.htmlEncode(lines[j]) + "\n";
 										}
-										rbod += "<b>";
+										rbod += "<span class=\"linematch\">";
 									}
-									rbod += e.htmlEncode(lines[i]) + "\n";
+									rbod += e.htmlEncode(lines[i]).replace(regex, "<span class=\"querymatch\">" + q.q + "</span>") + "\n";
 									if (q.context) {
-										rbod += "</b>";
+										rbod += "</span>";
 										for (var j = ++i; j < i + q.context; ++j) {
 											rbod += e.htmlEncode(lines[j]) + "\n";
 										}
@@ -78,11 +78,11 @@ plugins.logbrowser = {
 								for (var j = i - q.context; j < i; ++j) {
 									rbod += e.htmlEncode(lines[j]) + "\n";
 								}
-								rbod += "<b>";
+								rbod += "<span class=\"linematch\">";
 							}
-							rbod += e.htmlEncode(lines[i]) + "\n";
+							rbod += e.htmlEncode(lines[i]).replace(regex, "<span class=\"querymatch\">" + q.q + "</span>") + "\n";
 							if (q.context) {
-								rbod += "</b>";
+								rbod += "</span>";
 								for (var j = ++i; j < i + q.context; ++j) {
 									rbod += e.htmlEncode(lines[j]) + "\n";
 								}
