@@ -80,5 +80,10 @@ plugins.logbrowser = {
 			response.writeHead(200, {"content-type":"text/html", "length":rbod.length});
 			response.end(rbod);
 		}).listen(plugins.logbrowser.config.port);  // Listen on configured port
+	},
+	help : function() {
+		return [
+			"You can browse my logs at " + plugins.logbrowser.config.accessUrl
+		];
 	}
 };

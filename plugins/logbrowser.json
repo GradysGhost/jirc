@@ -2,5 +2,6 @@
 	"port" : 12321,
 	"docroot" : "./plugins/logbrowser",
 	"prologue" : "prologue.html",
-	"epilogue" : "epilogue.html"
+	"epilogue" : "epilogue.html",
+	"accessUrl" : "localhost:12321"
 }
