@@ -19,24 +19,39 @@ plugins.logbrowser = {
 			// Decode the important parts
 			if (q.chan) q.chan = decodeURIComponent(q.chan);
 			if (q.q) q.q = decodeURIComponent(q.q);
+			if (q.context) q.context = parseInt(decodeURIComponent(q.context));
 			
 			if (q.chan) {
 				rbod += "<h2>Channel log: " + q.chan + "</h2>";
-				rbod += "<form action=\"/\" method=\"GET\"><p>Search " + q.chan + ": <input type=\"hidden\" name=\"chan\" value=\"" + q.chan + "\" /><input type=\"search\" name=\"q\" size=\"15\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
+				rbod += "<form action=\"/\" method=\"GET\"><p>Search " + q.chan + ": <input type=\"hidden\" name=\"chan\" value=\"" + q.chan + "\" /><input type=\"search\" name=\"q\" size=\"15\" /> ";
+				rbod += "Lines of context: <input type=\"text\" name=\"context\" size=\"3\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
 				// If the requested channel log exists
 				try {
 					if (fs.statSync("./log/" + q.chan)) {
 						if (q.q) {  // Are we attempting a search?
-							rbod += "<h3>Search: " + q.q + "</h3><pre>";
+							rbod += "<h3>Search: " + q.q + "</h3>";
 							var regex = new RegExp(q.q, "i");
 							var lines = fs.readFileSync("./log/" + q.chan, "utf8").split('\n');
 							for (var i = 0; i < lines.length; ++i) {
 								var m = lines[i].match(regex);
 								if (m) {
+									rbod += "<pre>";
+									if (q.context) {
+										for (var j = i - q.context; j < i; ++j) {
+											rbod += e.htmlEncode(lines[j]) + "\n";
+										}
+										rbod += "<b>";
+									}
 									rbod += e.htmlEncode(lines[i]) + "\n";
+									if (q.context) {
+										rbod += "</b>";
+										for (var j = ++i; j < i + q.context; ++j) {
+											rbod += e.htmlEncode(lines[j]) + "\n";
+										}
+									}
+									rbod += "</pre>";
 								}
 							}
-							rbod += "</pre>";
 						} else {
 							rbod += "<pre>" + e.htmlEncode(fs.readFileSync("./log/" + q.chan, "utf8")) + "</pre>";
 						}
@@ -47,24 +62,40 @@ plugins.logbrowser = {
 			} else if (q.q) {
 				// Search all channels
 				rbod += "<h3>Search: " + q.q + "</h3>";
-				rbod += "<form action=\"/\" method=\"GET\"><p>Search all channels: <input type=\"search\" name=\"q\" size=\"15\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
+				rbod += "<form action=\"/\" method=\"GET\"><p>Search all channels: <input type=\"search\" name=\"q\" size=\"15\" /> ";
+				rbod += "Lines of context: <input type=\"text\" name=\"context\" size=\"3\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
 				var regex = new RegExp(q.q, "i");
 				
 				var files = fs.readdirSync("./log/");
 				for (var file in files) {
-					rbod += "<h4>" + files[file] + "</h4><pre>";
+					rbod += "<h4>" + files[file] + "</h4>";
 					var lines = fs.readFileSync("./log/" + files[file], "utf8").split('\n');
 					for (var i = 0; i < lines.length; ++i) {
 						var m = lines[i].match(regex);
 						if (m) {
+							rbod += "<pre>";
+							if (q.context) {
+								for (var j = i - q.context; j < i; ++j) {
+									rbod += e.htmlEncode(lines[j]) + "\n";
+								}
+								rbod += "<b>";
+							}
 							rbod += e.htmlEncode(lines[i]) + "\n";
+							if (q.context) {
+								rbod += "</b>";
+								for (var j = ++i; j < i + q.context; ++j) {
+									rbod += e.htmlEncode(lines[j]) + "\n";
+								}
+							}
+							rbod += "</pre>";
 						}
 					}
 					rbod += "</pre>";
 				}
 			} else {
 				rbod += "<h2>Channels</h2><ul>";
-				rbod += "<form action=\"/\" method=\"GET\"><p>Search all channels: <input type=\"search\" name=\"q\" size=\"15\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
+				rbod += "<form action=\"/\" method=\"GET\"><p>Search all channels: <input type=\"search\" name=\"q\" size=\"15\" /> ";
+				rbod += "Lines of context: <input type=\"text\" name=\"context\" size=\"3\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
 				var files = fs.readdirSync("./log/");
 				for (var file in files) {
 					if (files[file].charAt(0) == "#") {
