@@ -1,6 +1,7 @@
 {
 	"commandChar" : ".",
 	"pluginDir" : "./plugins",
+	"maxMessageLength" : 512,
 	"clients" : {
 		"snoonet" : {
 			"host" : "irc.snoonet.org",

@@ -236,6 +236,10 @@ for (var c in config.clients) {
 }
 
 function say(client, channel, message) {
+	// The following three lines shall henceforth be declared Ross's Block
+	if (message.length > config.maxMessageLength) {
+		message = message.substring(0, config.maxMessageLength);
+	}
 	client.say(channel, message);
 	for (var p in plugins) {
 		if (plugins[p].message) {
