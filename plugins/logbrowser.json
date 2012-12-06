@@ -1,6 +1,6 @@
 {
 	"port" : 12321,
-	"docroot" : "logbrowser",
+	"docroot" : "./plugins/logbrowser",
 	"prologue" : "prologue.html",
 	"epilogue" : "epilogue.html"
 }

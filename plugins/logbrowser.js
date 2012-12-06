@@ -1,23 +1,84 @@
 plugins.logbrowser = {
 	config : {},
 	init : function() {
-		plugins.logbrowser.config = JSON.parse(fs.readFileSync("plugins/communicator.json", "utf8"));
+		// Read in the config file
+		plugins.logbrowser.config = JSON.parse(fs.readFileSync("plugins/logbrowser.json", "utf8"));
+		
+		// Start an HTTP server
 		require('http').createServer(function(request, response) {
+			var Encoder = require('node-html-encoder').Encoder;
+			var e = new Encoder('entity');
+			
+			// Parse the URL
 			var u = require('url').parse(request.url, true);
 			var q = u.query;
+			
+			// Always need that prologue
 			var rbod = fs.readFileSync(plugins.logbrowser.config.docroot + "/" + plugins.logbrowser.config.prologue, "utf8");
 			
-			if (q.length == 0) {
+			// Decode the important parts
+			if (q.chan) q.chan = decodeURIComponent(q.chan);
+			if (q.q) q.q = decodeURIComponent(q.q);
+			
+			if (q.chan) {
+				rbod += "<h2>Channel log: " + q.chan + "</h2>";
+				rbod += "<form action=\"/\" method=\"GET\"><p>Search " + q.chan + ": <input type=\"hidden\" name=\"chan\" value=\"" + q.chan + "\" /><input type=\"search\" name=\"q\" size=\"15\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
+				// If the requested channel log exists
+				try {
+					if (fs.statSync("./log/" + q.chan)) {
+						if (q.q) {  // Are we attempting a search?
+							rbod += "<h3>Search: " + q.q + "</h3><pre>";
+							var regex = new RegExp(q.q, "i");
+							var lines = fs.readFileSync("./log/" + q.chan, "utf8").split('\n');
+							for (var i = 0; i < lines.length; ++i) {
+								var m = lines[i].match(regex);
+								if (m) {
+									rbod += e.htmlEncode(lines[i]) + "\n";
+								}
+							}
+							rbod += "</pre>";
+						} else {
+							rbod += "<pre>" + e.htmlEncode(fs.readFileSync("./log/" + q.chan, "utf8")) + "</pre>";
+						}
+					}
+				} catch (e) {
+					rbod += "<h2 class=\"error\">No such channel: " + q.chan + "</h2>";
+				}
+			} else if (q.q) {
+				// Search all channels
+				rbod += "<h3>Search: " + q.q + "</h3>";
+				rbod += "<form action=\"/\" method=\"GET\"><p>Search all channels: <input type=\"search\" name=\"q\" size=\"15\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
+				var regex = new RegExp(q.q, "i");
+				
+				var files = fs.readdirSync("./log/");
+				for (var file in files) {
+					rbod += "<h4>" + files[file] + "</h4><pre>";
+					var lines = fs.readFileSync("./log/" + files[file], "utf8").split('\n');
+					for (var i = 0; i < lines.length; ++i) {
+						var m = lines[i].match(regex);
+						if (m) {
+							rbod += e.htmlEncode(lines[i]) + "\n";
+						}
+					}
+					rbod += "</pre>";
+				}
+			} else {
 				rbod += "<h2>Channels</h2><ul>";
-				for (var file in fs.readDir("./log/")) {
-					if (file.charAt(0) == "#") {
-						rbod += "<li><a href='?channel=" + file + "'>" + file + "</a></li>";
+				rbod += "<form action=\"/\" method=\"GET\"><p>Search all channels: <input type=\"search\" name=\"q\" size=\"15\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
+				var files = fs.readdirSync("./log/");
+				for (var file in files) {
+					if (files[file].charAt(0) == "#") {
+						rbod += "<li><a href='?chan=" + encodeURIComponent(files[file]) + "'>" + files[file] + "</a></li>";
 					}
 				}
 				rbod += "</ul>";
 			}
 			
+			// Dat epilogue
 			rbod += fs.readFileSync(plugins.logbrowser.config.docroot + "/" + plugins.logbrowser.config.epilogue, "utf8");
-		}).listen(plugins.logbrowser.config.port);
+			
+			response.writeHead(200, {"content-type":"text/html", "length":rbod.length});
+			response.end(rbod);
+		}).listen(plugins.logbrowser.config.port);  // Listen on configured port
 	}
 };
