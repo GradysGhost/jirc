@@ -20,12 +20,13 @@ plugins.logbrowser = {
 			// Decode the important parts
 			if (q.chan) q.chan = decodeURIComponent(q.chan);
 			if (q.q) q.q = decodeURIComponent(q.q);
-			if (q.context) q.context = parseInt(decodeURIComponent(q.context));
+			if (q.a) q.a = parseInt(decodeURIComponent(q.a));
+			if (q.b) q.b = parseInt(decodeURIComponent(q.b));
 			
 			if (q.chan) {
 				rbod += "<h2>Channel log: " + q.chan + "</h2>";
-				rbod += "<form action=\"/\" method=\"GET\"><p>Search " + q.chan + ": <input type=\"hidden\" name=\"chan\" value=\"" + q.chan + "\" /><input type=\"search\" name=\"q\" size=\"15\" /> ";
-				rbod += "Lines of context: <input type=\"text\" name=\"context\" size=\"3\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
+				rbod += "<form action=\"/\" method=\"GET\"><p>Search " + q.chan + ": <input type=\"hidden\" name=\"chan\" value=\"" + q.chan + "\" /><input type=\"search\" name=\"q\" size=\"15\" value=\"" + q.q + "\" /> ";
+				rbod += "Lines before: <input type=\"text\" name=\"b\" value=\"" + q.b + "\" size=\"3\" /> Lines after: <input type=\"text\" name=\"a\" value=\"" + q.a + "\" size=\"3\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
 				// If the requested channel log exists
 				try {
 					if (fs.statSync("./log/" + q.chan)) {
@@ -37,16 +38,16 @@ plugins.logbrowser = {
 								var m = lines[i].match(regex);
 								if (m) {
 									rbod += "<pre>";
-									if (q.context) {
-										for (var j = i - q.context; j < i; ++j) {
+									if (q.b) {
+										for (var j = i - q.b; j < i; ++j) {
 											rbod += e.htmlEncode(lines[j]) + "\n";
 										}
 										rbod += "<span class=\"linematch\">";
 									}
 									rbod += e.htmlEncode(lines[i]).replace(regex, "<span class=\"querymatch\">" + q.q + "</span>") + "\n";
-									if (q.context) {
+									if (q.a) {
 										rbod += "</span>";
-										for (var j = ++i; j < i + q.context; ++j) {
+										for (var j = ++i; j < i + q.a; ++j) {
 											rbod += e.htmlEncode(lines[j]) + "\n";
 										}
 									}
@@ -63,8 +64,8 @@ plugins.logbrowser = {
 			} else if (q.q) {
 				// Search all channels
 				rbod += "<h3>Search: " + q.q + "</h3>";
-				rbod += "<form action=\"/\" method=\"GET\"><p>Search all channels: <input type=\"search\" name=\"q\" size=\"15\" /> ";
-				rbod += "Lines of context: <input type=\"text\" name=\"context\" size=\"3\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
+				rbod += "<form action=\"/\" method=\"GET\"><p>Search all channels: <input type=\"search\" name=\"q\" size=\"15\" value=\"" + q.q + "\" /> ";
+				rbod += "Lines before: <input type=\"text\" name=\"b\" value=\"" + q.b + "\" size=\"3\" /> Lines after: <input type=\"text\" name=\"a\" value=\"" + q.a + "\" size=\"3\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
 				var regex = new RegExp(q.q, "i");
 				
 				var files = fs.readdirSync("./log/");
@@ -75,16 +76,16 @@ plugins.logbrowser = {
 						var m = lines[i].match(regex);
 						if (m) {
 							rbod += "<pre>";
-							if (q.context) {
-								for (var j = i - q.context; j < i; ++j) {
+							if (q.b) {
+								for (var j = i - q.b; j < i; ++j) {
 									rbod += e.htmlEncode(lines[j]) + "\n";
 								}
 								rbod += "<span class=\"linematch\">";
 							}
 							rbod += e.htmlEncode(lines[i]).replace(regex, "<span class=\"querymatch\">" + q.q + "</span>") + "\n";
-							if (q.context) {
+							if (q.a) {
 								rbod += "</span>";
-								for (var j = ++i; j < i + q.context; ++j) {
+								for (var j = ++i; j < i + q.a; ++j) {
 									rbod += e.htmlEncode(lines[j]) + "\n";
 								}
 							}
@@ -95,8 +96,8 @@ plugins.logbrowser = {
 				}
 			} else {
 				rbod += "<h2>Channels</h2><ul>";
-				rbod += "<form action=\"/\" method=\"GET\"><p>Search all channels: <input type=\"search\" name=\"q\" size=\"15\" /> ";
-				rbod += "Lines of context: <input type=\"text\" name=\"context\" size=\"3\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
+				rbod += "<form action=\"/\" method=\"GET\"><p>Search all channels: <input type=\"search\" name=\"q\" size=\"15\" value=\"" + q.q + "\" /> ";
+				rbod += "Lines before: <input type=\"text\" name=\"b\" value=\"" + q.b + "\" size=\"3\" /> Lines after: <input type=\"text\" name=\"a\" value=\"" + q.a + "\" size=\"3\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
 				var files = fs.readdirSync("./log/");
 				for (var file in files) {
 					if (files[file].charAt(0) == "#") {
