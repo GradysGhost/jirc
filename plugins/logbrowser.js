@@ -19,9 +19,9 @@ plugins.logbrowser = {
 			
 			// Decode the important parts
 			if (q.chan) q.chan = decodeURIComponent(q.chan);
-			if (q.q) q.q = decodeURIComponent(q.q);
-			if (q.a) q.a = parseInt(decodeURIComponent(q.a));
-			if (q.b) q.b = parseInt(decodeURIComponent(q.b));
+			q.q = ((typeof q.q !== "undefined") ? decodeURIComponent(q.q) : "");
+			q.a = ((typeof q.a !== "undefined") ? parseInt(decodeURIComponent(q.a)) : 0);
+			q.b = ((typeof q.b !== "undefined") ? parseInt(decodeURIComponent(q.b)) : 0);
 			
 			if (q.chan) {
 				rbod += "<h2>Channel log: " + q.chan + "</h2>";
