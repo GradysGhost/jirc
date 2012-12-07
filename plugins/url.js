@@ -1,6 +1,6 @@
 plugins.url = {
 	message : function(client, from, channel, text, message) {
-		var m = text.match(/https?\:\/\/(.*)/g);
+		var m = text.match(/https?\:\/\/([^\s]*)/g);
 		if (m) {
 			for (var i = 0; i < m.length; ++i) {
 				var url = require('url').parse(m[i]);
