@@ -3,5 +3,6 @@
 	"docroot" : "./plugins/logbrowser",
 	"prologue" : "prologue.html",
 	"epilogue" : "epilogue.html",
-	"accessUrl" : "localhost:12321"
+	"accessUrl" : "localhost:12321",
+	"maxLogBytes" : 2048
 }

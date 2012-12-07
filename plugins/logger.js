@@ -1,11 +1,20 @@
 plugins.logger = {
 	streams : {},
 	
+	init : function() {
+		for (var i in config.clients) {
+			for (var j in config.clients[i].options.channels) {
+				plugins.logger.checkForStream(config.clients[i].options.channels[j]);
+			}
+		}
+	},
+	
 	checkForStream : function(channel) {
 		var chan = channel.replace(/\W/, '');
 		if (!plugins.logger.streams["s" + chan]) {
 			plugins.logger.streams["s" + chan] = fs.createWriteStream("./log/" + channel, {'flags':'a'});
 		}
+		return plugins.logger.streams["s" + chan];
 	},
 	
 	log : function(channel, message) {
