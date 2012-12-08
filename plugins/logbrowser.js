@@ -58,6 +58,9 @@ plugins.logbrowser = {
 			q.a = ((typeof q.a !== "undefined") ? parseInt(decodeURIComponent(q.a)) : 0);
 			q.b = ((typeof q.b !== "undefined") ? parseInt(decodeURIComponent(q.b)) : 0);
 			q.p = ((typeof q.p !== "undefined") ? parseInt(decodeURIComponent(q.p)) : 0);
+			if (q.a < 0) q.a = 0;
+			if (q.b < 0) q.b = 0;
+			if (q.p < 0) q.p = 0;
 			
 			// Page generation
 			if (q.chan) { // If a channel was given...
@@ -112,14 +115,24 @@ plugins.logbrowser = {
 							++lim;
 						};
 						
+						var prev = q.p - 1;
+						var next = q.p + 1;
+						
+						if (prev < 0) prev = lim;
+						if (next > lim) next = 0;
+						
 						// Display pagination options
 						rbod += "<p class=\"pagelist\">";
-						if (q.p > 0) {
-							rbod += "<a href=\"/?chan=" + encodeURIComponent(q.chan) + "&p=" + (q.p - 1) + "\">&laquo;</a>";
+						if (q.p <= lim && q.p != 1) {
+							rbod += "<a href=\"/?chan=" + encodeURIComponent(q.chan) + "&p=" + prev + "\">&laquo;</a>";
 						}
-						rbod += "Page " + q.p + " ";
-						if (q.p < lim) {
-							rbod += "<a href=\"/?chan=" + encodeURIComponent(q.chan) + "&p=" + (q.p + 1) + "\">&raquo;</a> ";
+						if (q.p == 0) {
+							rbod += "Page " + (lim + 1);
+						} else {
+							rbod += "Page " + q.p + " ";
+						}
+						if (q.p > 0) {
+							rbod += "<a href=\"/?chan=" + encodeURIComponent(q.chan) + "&p=" + next + "\">&raquo;</a> ";
 						}
 						
 						rbod += "<pre>" + e.htmlEncode(fs.readFileSync("./log/" + file, "utf8")) + "</pre>";
