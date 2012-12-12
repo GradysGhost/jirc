@@ -14,7 +14,7 @@ Then `cd` to that directory and install the `irc` Node module:
     cd ./jirc
     npm install irc
 
-If you want to use the `logbrowser` plugin, install the `node-html-encoder` module as well:
+If you want to use the `logbrowser` or `url` plugins, install the `node-html-encoder` module as well:
 
     npm install node-html-encoder
 
@@ -121,6 +121,8 @@ When this plugin receives a `ping` command, it `pong`s. What did you expect?
 ### url
 
 Looks in all chat messages for URLs. When one is found, this plugin attempts to get the title of the web page (anything between `<title>` and `</title>`), then prints that to chat. This is not invoked through commands, but simply by posting a URL to the channel.
+
+This plugin depends upon the `node-html-encoder` module.
 
 ### youtube
 
