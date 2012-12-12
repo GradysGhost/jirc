@@ -9,6 +9,9 @@ plugins.url = {
 	sayTitle : function (client, channel, message) {
 		// If the title is a URL itself, we'll use the lower level IRC client
 		// to send the message to avoid getting stuck in an infinite lookup loop
+		var Encoder = require('node-html-encoder').Encoder;
+		var e = new Encoder('entity');
+		message = e.htmlDecode(message);
 		if (message.match(plugins.url.config.urlRegExp)) {
 			client.say(channel, message);
 		} else {
