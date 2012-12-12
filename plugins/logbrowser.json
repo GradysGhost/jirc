@@ -4,5 +4,5 @@
 	"prologue" : "prologue.html",
 	"epilogue" : "epilogue.html",
 	"accessUrl" : "localhost:12321",
-	"maxLogBytes" : 100
+	"maxLogBytes" : 1024
 }
