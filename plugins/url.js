@@ -57,7 +57,6 @@ plugins.url = {
 										for (var k = 0; k < plugins.url.config.cache.length; ++k) {
 											if (plugins.url.config.cache[k].url == cacheUrl) {
 												plugins.url.config.cache.splice(k, 1);
-												plugins.url.printCache();
 												return;
 											}
 										}
