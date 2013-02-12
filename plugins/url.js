@@ -29,7 +29,6 @@ plugins.url = {
 				
 				for (var j = 0; j < plugins.url.config.cache.length; ++j) {
 					// If the URL's been cached, pull from cache
-					console.log(plugins.url.config.cache[j].url);
 					if (plugins.url.config.cache[j].url == cacheUrl) {
 						found = true;
 						var title = plugins.url.config.cache[j].title;
