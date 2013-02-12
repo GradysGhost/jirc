@@ -20,6 +20,10 @@ plugins.url = {
 	},
 	
 	message : function(client, from, channel, text, message) {
+		var m = text.match(plugins.url.config.urlRegExp);
+		var url = cacheUrl = null;
+		var found = false;
+		var redirects = 0;
 
 		var handleHttpResponse = function(response) {
 			if (response.statusCode == 200) {
@@ -48,20 +52,22 @@ plugins.url = {
 					}   
 				}); 
 			} else if (response.statusCode >= 300 && response.statusCode < 400) {  // If we get redirected
-				var loc = require('url').parse(response.headers['location']);
-				var options = {
-					hostname : loc.host,
-					path : loc.path
-				};
-				var request = require('http').request(options, handleHttpResponse);
-				request.on('error', function(){});
-				request.end();
+				++redirects;
+				if (redirects <=  plugins.url.config.max_redirects) {
+					var loc = require('url').parse(response.headers['location']);
+					var options = {
+						hostname : loc.host,
+						path : loc.path
+					};
+					var request = require('http').request(options, handleHttpResponse);
+					request.on('error', function(){});
+					request.end();
+				} else {
+					console.log("Url plugin exceeded maximum number of redirects: " + response.headers['location']);
+				}
 			}
 		};
 
-		var m = text.match(plugins.url.config.urlRegExp);
-		var url = cacheUrl = null;
-		var found = false;
 		if (m) {
 			for (var i = 0; i < m.length; ++i) {
 				url = require('url').parse(m[i]);
