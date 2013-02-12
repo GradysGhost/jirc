@@ -20,12 +20,53 @@ plugins.url = {
 	},
 	
 	message : function(client, from, channel, text, message) {
+
+		var handleHttpResponse = function(response) {
+			if (response.statusCode == 200) {
+				var body = ""; 
+				response.on('data', function(chunk) {
+					body += chunk.toString("utf8");
+				}); 
+				response.on('end', function() {
+					var title = body.match(/<title>(.*)<\/title>/i);
+					if (title) {
+						// Cache the title and an expiration timer
+						var cleanup = setTimeout(function() {
+							for (var k = 0; k < plugins.url.config.cache.length; ++k) {
+								if (plugins.url.config.cache[k].url == cacheUrl) {
+									plugins.url.config.cache.splice(k, 1); 
+									return;
+								}   
+							}   
+						}, plugins.url.config.ttl * 1000);
+						plugins.url.config.cache.push({
+							"title" : title[1],
+							"url" : cacheUrl,
+							"cleanup" : cleanup
+						}); 
+						plugins.url.sayTitle(client, channel, title[1]);
+					}   
+				}); 
+			} else if (response.statusCode >= 300 && response.statusCode < 400) {  // If we get redirected
+				var loc = require('url').parse(response.headers['location']);
+				var options = {
+					hostname : loc.host,
+					path : loc.path
+				};
+				var request = require('http').request(options, handleHttpResponse);
+				request.on('error', function(){});
+				request.end();
+			}
+		};
+
 		var m = text.match(plugins.url.config.urlRegExp);
+		var url = cacheUrl = null;
+		var found = false;
 		if (m) {
 			for (var i = 0; i < m.length; ++i) {
-				var url = require('url').parse(m[i]);
-				var cacheUrl = url.host + url.path;
-				var found = false;
+				url = require('url').parse(m[i]);
+				cacheUrl = url.host + url.path;
+				found = false;
 				
 				for (var j = 0; j < plugins.url.config.cache.length; ++j) {
 					// If the URL's been cached, pull from cache
@@ -42,34 +83,7 @@ plugins.url = {
 						hostname : url.hostname,
 						path : url.path
 					};
-					var request = require('http').request(options, function(response) {
-						if (response.statusCode == 200) {
-							var body = "";
-							response.on('data', function(chunk) {
-								body += chunk.toString("utf8");
-							});
-							response.on('end', function() {
-								var title = body.match(/<title>(.*)<\/title>/i);
-								if (title) {
-									// Cache the title and an expiration timer
-									var cleanup = setTimeout(function() {
-										for (var k = 0; k < plugins.url.config.cache.length; ++k) {
-											if (plugins.url.config.cache[k].url == cacheUrl) {
-												plugins.url.config.cache.splice(k, 1);
-												return;
-											}
-										}
-									}, plugins.url.config.ttl * 1000);
-									plugins.url.config.cache.push({
-										"title" : title[1],
-										"url" : cacheUrl,
-										"cleanup" : cleanup
-									});
-									plugins.url.sayTitle(client, channel, title[1]);
-								}
-							});
-						}
-					});
+					var request = require('http').request(options, handleHttpResponse);
 					request.on('error', function(){});
 					request.end();
 				}
