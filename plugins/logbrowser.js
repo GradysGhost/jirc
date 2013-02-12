@@ -71,7 +71,8 @@ plugins.logbrowser = {
 					rbod += "Lines before: <input type=\"text\" name=\"b\" value=\"" + q.b + "\" size=\"3\" /> Lines after: <input type=\"text\" name=\"a\" value=\"" + q.a + "\" size=\"3\" /> <input type=\"submit\" value=\"Search\" /></form></p>";
 					if (q.q) {  // Are we attempting a search? If yes...
 						rbod += "<h3>Search: " + q.q + "</h3>";
-						var regex = new RegExp(q.q, "ig");
+						// Sanitize the regexp input
+						var regex = new RegExp(q.q.replace(/[#-.]|[[-^]|[?|{}]/g, '\\$&'), "ig");
 						var lines = fs.readFileSync("./log/" + q.chan, "utf8").split('\n');
 						
 						var i = 1;
