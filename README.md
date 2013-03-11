@@ -53,6 +53,15 @@ Those events are:
 
 ## The Plugins
 
+### autoident
+
+Some networks require that bots use registered nicks and autoidentify to the network's NickServ. This plugin makes jIRC send an `IDENTIFY` message to the NickServ in response to a server notice saying the nickname is registered. Configure this plugin by editing `plugins/autoident.json`. Values are:
+
+ * `respondTo` - The text to look for in a notice, like `"nickname is registered"`.
+ * `respondToNick` - The nick to send the identification message to, often `"NickServ"`.
+ * `respondWith` - The message to send back. Optionally use `%P%` to represent the password, which is set with
+ * `password` - The password to replace `%P%` with in `respondWith`, optional.
+
 ### communicator
 
 This plugin is an **INCREDIBLY INSECURE** way to have jIRC send custom messages into a channel by sending it carefully formed HTTP requests. There's a config file at `plugins/communicator.json` that lets you set the HTTP server listening port and a password (in plaintext; how's that for security?). By default, the port is `3000` and the password is `password`. With default settings, you can convince jIRC to say something by running a `curl`:
