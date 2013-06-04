@@ -1,29 +1,29 @@
 {
-	"commandChar" : ".",
-	"pluginDir" : "./plugins",
-	"maxMessageLength" : 512,
-	"clients" : {
-		"snoonet" : {
-			"host" : "irc.snoonet.org",
-			"nick" : "jIRCface",
-			"options" : {
-				"userName" : "jIRCface",
-				"realName" : "Node.JS IRC Bot",
-				"port" : 6667,
-				"autoRejoin" : true,
-				"autoConnect" : true,
-				"channels" : ["#jircfacetest"],
-				"secure" : false
-			}
-		}
-	},
-	"plugins" : [
-		"logger",
-		"eightball",
-		"youtube",
-		"dice",
-		"url",
-		"ping",
-		"help"
-	]
+  "commandChar" : ".",
+  "pluginDir" : "./plugins",
+  "maxMessageLength" : 512,
+  "clients" : {
+    "snoonet" : {
+      "host" : "irc.snoonet.org",
+      "nick" : "jIRCface",
+      "options" : {
+        "userName" : "jIRCface",
+        "realName" : "Node.JS IRC Bot",
+        "port" : 6667,
+        "autoRejoin" : true,
+        "autoConnect" : true,
+        "channels" : ["#jircfacetest"],
+        "secure" : false
+      }
+    }
+  },
+  "plugins" : [
+    "logger",
+    "eightball",
+    "youtube",
+    "dice",
+    "url",
+    "ping",
+    "help"
+  ]
 }

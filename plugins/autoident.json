@@ -1,6 +1,6 @@
 {
-	"respondTo" : "nickname is registered",
-	"respondToNick" : "NickServ",
-	"respondWith" : "IDENTIFY %P%",
-	"password" : "password"
+  "respondTo" : "nickname is registered",
+  "respondToNick" : "NickServ",
+  "respondWith" : "IDENTIFY %P%",
+  "password" : "password"
 }

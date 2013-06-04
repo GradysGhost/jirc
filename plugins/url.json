@@ -1,4 +1,4 @@
 {
-	"ttl" : 60,
-	"max_redirects" : 5
+  "ttl" : 60,
+  "max_redirects" : 5
 }
